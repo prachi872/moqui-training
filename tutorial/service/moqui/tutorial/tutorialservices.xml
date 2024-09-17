@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <!-- Create Tutorial Service -->
+    <service verb="create" noun="Tutorial" displayName="Create a Tutorial" type="entity-auto" allow-remote="true">
+        <in-parameters>
+            <auto-parameters include="nonpk"/>
+            <parameter name="tutorialId" type="String"/>
+        </in-parameters>
+        <out-parameters>
+            <auto-parameters include="pk" required="true"/>
+        </out-parameters>
+        <actions>
+            <entity-value entity-name="tutorial.Tutorial" value="context" use-cache="false" create="true"/>
+        </actions>
+    </service>
+
+    <!-- Read/Get Tutorial by tutorialId -->
+    <service verb="find" noun="Tutorial" displayName="Find Tutorial" allow-remote="true">
+        <in-parameters>
+            <parameter name="tutorialId" type="id" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="tutorialId" type="id"/>
+            <parameter name="name" type="text-long"/>
+            <parameter name="description" type="text-medium"/>
+            <parameter name="date" type="Date"/>
+            <parameter name="price" type="currency-precise"/>
+            <parameter name="quantity" type="number-integer"/>
+        </out-parameters>
+    </service>
+
+
+    <!-- Update Tutorial Service -->
+    <service verb="update" noun="Tutorial" displayName="Update a Tutorial" type="entity-auto" allow-remote="true">
+        <in-parameters>
+            <auto-parameters include="pk" required="true"/>
+            <auto-parameters include="nonpk"/>
+        </in-parameters>
+        <actions>
+            <entity-value entity-name="tutorial.Tutorial" value="context" use-cache="false" create="false"/>
+        </actions>
+    </service>
+
+    <!-- Delete Tutorial Service -->
+    <service verb="delete" noun="Tutorial" displayName="Delete a Tutorial" type="entity-auto" allow-remote="true">
+        <in-parameters>
+            <auto-parameters include="pk" required="true"/>
+        </in-parameters>
+    </service>
+
+</services>

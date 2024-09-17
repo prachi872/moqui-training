@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entity-facade-xml type="demo">
-    <tutorial.Tutorial tutorialId="TestOne" description="Test one description." name="Prachi" date="2024-09-12" price="45.00" quantity="1"/>
-    <tutorial.Tutorial tutorialId="TestTwo" description="Test two description." name="Prachi" date="2024-09-12" price="45.00" quantity="1"/>
+    <tutorial tutorialId="TestOne" description="Test one description." name="Prachi" date="2024-09-12" price="45.00" quantity="1"/>
+    <tutorial tutorialId="TestTwo" description="Test two description." name="Prachi" date="2024-09-12" price="45.00" quantity="1"/>
 </entity-facade-xml>
 
 
