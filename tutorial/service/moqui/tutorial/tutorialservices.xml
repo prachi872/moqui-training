@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <!-- Create Tutorial Service -->
+    <service verb="create" noun="Tutorial" displayName="Create a Tutorial" type="entity-auto" allow-remote="true">
+        <in-parameters>
+            <auto-parameters include="nonpk"/>
+            <parameter name="tutorialId" type="String"/>
+        </in-parameters>
+        <out-parameters>
+            <auto-parameters include="pk" required="true"/>
+        </out-parameters>
+        <actions>
+            <entity-value entity-name="tutorial.Tutorial" value="context" use-cache="false" create="true"/>
+        </actions>
+    </service>
+
+    <!-- Read/Get Tutorial by tutorialId -->
+    <service verb="find" noun="Tutorial" displayName="Find Tutorial" allow-remote="true">
+        <in-parameters>
+            <parameter name="tutorialId" type="id" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="tutorialId" type="id"/>
+            <parameter name="name" type="text-long"/>
+            <parameter name="description" type="text-medium"/>
+            <parameter name="date" type="Date"/>
+            <parameter name="price" type="currency-precise"/>
+            <parameter name="quantity" type="number-integer"/>
+        </out-parameters>
+    </service>
+
+
+    <!-- Update Tutorial Service -->
+    <service verb="update" noun="Tutorial" displayName="Update a Tutorial" type="entity-auto" allow-remote="true">
+        <in-parameters>
+            <auto-parameters include="pk" required="true"/>
+            <auto-parameters include="nonpk"/>
+        </in-parameters>
+        <actions>
+            <entity-value entity-name="tutorial.Tutorial" value="context" use-cache="false" create="false"/>
+        </actions>
+    </service>
+
+    <!-- Delete Tutorial Service -->
+    <service verb="delete" noun="Tutorial" displayName="Delete a Tutorial" type="entity-auto" allow-remote="true">
+        <in-parameters>
+            <auto-parameters include="pk" required="true"/>
+        </in-parameters>
+    </service>
+<!--FEMALE PERSON SERVICE-->
+    <service verb ="get" noun="FemalePerson" displayName="get all female persons"  allow-remote="true">
+        <out-parameters>
+            <parameter name="personsList" type="List"/>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="Person" list="personsList">
+                <econdition field-name="gender" value="F"/>
+            </entity-find>
+        </actions>
+    </service>
+<!--    2. List the Person details with MarsMarried marital status.-->
+<!--    a. Service name - verb="get" noun="Persons"-->
+<!--    b. Out parameters - personsList-->
+    <service verb ='get' noun="MarsMarried" displayName="persons with marsMarried marital Status" allow-remote="true">
+            <out-parameters>
+                    <parameter name="personList" type="List"/>
+            </out-parameters>
+    <actions>
+            <entity-find entity-name="Person" list="personList">
+                    <econdition field-name="maritalStatusEnumId" value="MarsMarried"/>
+            </entity-find>
+    </actions>
+    </service>
+    <!-- Find Latest Orders Service -->
+    <!-- Find Latest Orders Service -->
+    <service verb="get" noun="LatestOrders" displayName="Get Latest Orders" allow-remote="true">
+        <out-parameters>
+            <parameter name="ordersList" type="List"/>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="OrderHeader" list="ordersList" order-by="placedDate desc"/>
+        </actions>
+    </service>
+
+    <!-- Orders detail for order id -->
+<!--    4. Find the Order Header details for a given orderId.-->
+<!--    a. Service name - verb="get" noun="Order"-->
+<!--    b. In parameters - orderId-->
+<!--    c. Out parameters - orderDetails-->
+    <service verb="get" noun="Order" displayName="Get Order Details" allow-remote="true">
+        <in-parameters>
+            <parameter name="orderId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderDetails"/>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="OrderHeader" list="orderDetails">
+                <econdition field-name="orderId"/>
+            </entity-find>
+        </actions>
+    </service>
+
+<!--    Find all Order Header records with the grandTotal greater than 50.-->
+<!--    a. Service name - verb="get" noun="OrderHeaders"-->
+<!--    b. Out parameters - orderHeaderDetails-->
+    <service verb="get" noun="OrderHeaders" displayName="Get Order Details" allow-remote="true">
+        <description> To get orders that has grand total greater than 50.</description>
+        <out-parameters>
+            <parameter name="orderHeaderDetails"/>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="OrderHeader" list="orderHeaderDetails">
+                <econdition field-name="grandTotal" operator="greater" value="50"/>
+            </entity-find>
+        </actions>
+    </service>
+<!--    List all Order Item details for the order with orderId, 100102 and-->
+<!--    orderPartSeqId, 01.-->
+<!--    a. Service name - verb="get" noun="OrderItems"-->
+<!--    b. Out parameters - orderItemDetails-->
+    <service verb="get" noun="OrderItems" displayName="Get Order Items Details" allow-remote="true">
+<!--        <in-parameters>-->
+<!--            <parameter name="orderId" required="true" value="100102"/>-->
+<!--            <parameter name="orderPartSeqId" required="true" value="01"/>-->
+<!--        </in-parameters>-->
+        <out-parameters>
+            <parameter name="orderItemDetails" type="List"/>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="OrderItem" list="orderItemDetails">
+                <econdition field-name="orderId" value="100102"/>
+                <econdition field-name="orderPartSeqId" value="01"/>
+            </entity-find>
+        </actions>
+    </service>
+<!--    Find all Order Parts with partTotal less than equals to 20.-->
+<!--    a. Service name - verb="get" noun="OrderParts"-->
+<!--    b. Out parameters - orderPartDetails   -->
+    <service verb="get" noun="OrderParts" displayName="part total20" allow-remote="true">
+        <out-parameters>
+            <parameter name ="orderPart" type='list'/>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="OrderPart" list="orderPart">
+                <econdition field-name="partTotal" operator="less-equals" value="20">
+                </econdition>
+            </entity-find>
+        </actions>
+    </service>
+<!--    8. Find all Order Part records assigned to the facility with ZIRET_WH value.-->
+<!--    a. The entity find should return data for only the below fields of-->
+<!--    OrderPart:-->
+<!--    i. the orderId-->
+<!--    ii. orderPartSeqId-->
+<!--    iii. facilityId-->
+<!--    iv. partName-->
+<!--    v. customerPartyId-->
+<!--    b. Service name - verb="get" noun="OrderPartData"-->
+<!--    c. Out parameters - orderPartDetails-->
+    <service verb='get' noun="OrderPartData" displayName='orderPartData' allow-remote="true">
+        <out-parameters>
+            <parameter name="OrderPartData" type="List"/>
+           <!-- <parameter name="orderId" type="list"/>
+            <parameter name="orderPartSeqId" type="list"/>
+&lt;!&ndash;            <parameter name="description" type="list"/>&ndash;&gt;
+            <parameter name="facilityId" type="list"/>
+            <parameter name="partName" type="list"/>
+            <parameter name="customerPartyId" type="list"/>-->
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="OrderPart" list="OrderPartData">
+                <econdition field-name="facilityId" value="ZIRET_WH"/>
+                <select-field field-name="orderPartSeqId"/>
+                <select-field field-name="facilityId"/>
+                <select-field field-name="partName"/>
+                <select-field field-name="orderId"/>
+                <select-field field-name="customerPartyId"/>
+            </entity-find>
+        </actions>
+    </service>
+<!--    9. Find the count of order parts for the customer Party Id, “CustJqp”.a. Service name - verb="get" noun="OrderPartsCount"-->
+<!--    b. Out parameters - orderPartsCount-->
+    <service verb="get" noun="OrderPartsCount" displayName="Orders Part Count" allow-remote="true">
+            <out-parameters>
+            <parameter name="orderPartsCount"/>
+            </out-parameters>
+    <actions>
+            <entity-find-count entity-name="OrderPart" count-field="orderPartsCount">
+                    <econdition field-name="customerPartyId" value="CustJqp"/>
+            </entity-find-count>
+
+    </actions>
+    </service>
+<!--    10.Find all unique Order Parts with shipmentMethodEnumId value as-->
+<!--    “ShtMthGround” and facilityId as “ZIRET_WH”.-->
+<!--    a. Service name - verb="get" noun="OrderPartsInfo"-->
+<!--    b. Out parameters - orderPartsList-->
+    <service verb="get" noun="OrderPartsInfo" allow-remote="true" type="inline" displayName="PartsOrderInfo">
+
+        <out-parameters>
+            <parameter name="orderPartsList"/>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="mantle.order.OrderPart" list="orderPartsList">
+                <econditions>
+                    <econdition field-name="facilityId" value="ZIRET_WH"/>
+                    <econdition field-name="shipmentMethodEnumId" value="ShMthNextDay"/>
+                </econditions>
+            </entity-find>
+        </actions>
+    </service>
+</services>
+
+

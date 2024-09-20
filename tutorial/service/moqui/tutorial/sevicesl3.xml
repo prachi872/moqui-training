@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+<service verb="get" noun="FemalePersons" type="inline"
+         location="component://your-component-name/service/org/example/PersonServices.xml"
+         auth="true">
+    <in-parameters>
+        <!-- No input parameters for this service -->
+    </in-parameters>
+    <out-parameters>
+        <parameter name="personsList" type="List"/>
+    </out-parameters>
+
+    <actions>
+        <entity-find entity-name="Person" list="personsList">
+            <econdition field-name="gender" value="F"/>
+        </entity-find>
+    </actions>
+</service>
+    <service name="getOrderItems" verb="get" noun="OrderItems">
+        <description>List all Order Item details for the order with orderId 100102 and orderPartSeqId 01</description>
+        <in-parameters>
+            <parameter name="orderId" type="String"/>
+            <parameter name="orderPartSeqId" type="String"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderItemDetails" type="List"/>
+        </out-parameters>
+<!--        <service-implementation class="your.package.OrderItemService"/>-->
+    </service>
+
+
+</services>
